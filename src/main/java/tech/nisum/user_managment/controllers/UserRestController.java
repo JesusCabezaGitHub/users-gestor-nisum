@@ -2,11 +2,13 @@ package tech.nisum.user_managment.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.nisum.user_managment.domain.Phone;
 import tech.nisum.user_managment.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/users")
@@ -32,27 +34,32 @@ public class UserRestController {
     }
 
     @GetMapping
-    public List<User> listUsers() {
-        return this.users;
+    public ResponseEntity<List<User>> listUsers() {
+        return ResponseEntity.ok(this.users);
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody User user) {
         this.users.add(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{email}")
+                .buildAndExpand(user.getEmail())
+                .toUri();
 
-        return user;
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User userBody) {
+    public ResponseEntity<User> updateUser(@RequestBody User userBody) {
         for (User user : this.users) {
             if(user.getEmail().equals(userBody.getEmail())) {
                 user.setName(userBody.getName());
                 user.setPassword(userBody.getPassword());
                 user.setPhones(userBody.getPhones());
-                return user;
+                return ResponseEntity.ok(user);
             }
         }
-        return  null;
+        return  ResponseEntity.notFound().build();
     }
 }
