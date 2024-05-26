@@ -1,9 +1,11 @@
 package tech.nisum.user_managment.persistence.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import tech.nisum.user_managment.persistence.entity.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import tech.nisum.user_managment.persistence.entity.UserEntity;
 
 import java.util.UUID;
 
-public interface UserRepository extends CrudRepository<Usuario, UUID> {
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 }

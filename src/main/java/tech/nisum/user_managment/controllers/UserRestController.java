@@ -53,7 +53,7 @@ public class UserRestController {
     @Operation(summary = "Create a user", description = "Create a user through JSON send from client.")
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user) {
-        this.userService.getAllUser().add(user);
+        this.userService.create(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{email}")

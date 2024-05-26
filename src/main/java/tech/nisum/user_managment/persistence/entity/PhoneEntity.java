@@ -2,9 +2,11 @@ package tech.nisum.user_managment.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Entity
-public class Phone {
+@Data
+@Entity(name = "phone")
+public class PhoneEntity {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +21,8 @@ public class Phone {
     @NotNull
     private String contrycode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_user")
-    private Usuario usuario;
+    private UserEntity userEntity;
 
 }
