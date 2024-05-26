@@ -1,0 +1,264 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Gestor de Usuarios - Nisum",
+    "description": "Api rest para prueba técnica dentro del proceso de selección Fullstack Java - Angular",
+    "contact": {
+      "name": "Jesús Cabeza Acero",
+      "url": "https://www.linkedin.com/in/jesus-cabeza-acero/",
+      "email": "jesusenriquecabezaacero@gmail.com"
+    },
+    "license": {
+      "name": "MIT Licence",
+      "url": "https://github.com/thombergs/code-examples/blob/master/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Api users",
+      "description": "Api for users managment"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Api users"
+        ],
+        "summary": "Get all user",
+        "description": "Get all list user.",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "description": "Success operation",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Api users"
+        ],
+        "summary": "Update a user",
+        "description": "Update a user through JSON send from client.",
+        "operationId": "updateUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success operation",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Api users"
+        ],
+        "summary": "Create a user",
+        "description": "Create a user through JSON send from client.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success operation",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{email}": {
+      "get": {
+        "tags": [
+          "Api users"
+        ],
+        "summary": "Get user for email",
+        "description": "Get user for valid email. If email don't exist so response with NotFound state",
+        "operationId": "getUserByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success operation",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Phone": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "Número del teléfono",
+            "example": "3136548764"
+          },
+          "citycode": {
+            "type": "string",
+            "description": "Código de la ciudad",
+            "example": "04"
+          },
+          "contrycode": {
+            "type": "string",
+            "description": "Código del país",
+            "example": "57"
+          }
+        },
+        "description": "Entidad que describe la información que conforma a un teléfono. Cada usuario puede tener un listado de teléfonos",
+        "example": "[{'number': '3141122333','citycode': '5','contrycode': '57'}]"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del usuario",
+            "example": "Jesús"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email del usuario. Es el identificador único de cada usuario",
+            "example": "jesus@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Contraseña del usuario",
+            "example": "123456****"
+          },
+          "phones": {
+            "type": "array",
+            "description": "Listado de teléfonos del usuario.",
+            "example": "[{'number': '3141122333','citycode': '5','contrycode': '57'}]",
+            "items": {
+              "$ref": "#/components/schemas/Phone"
+            }
+          }
+        },
+        "description": "Entidad principal que contiene la información básica de un usuario"
+      }
+    }
+  }
+}
