@@ -13,6 +13,7 @@ import tech.nisum.user_managment.services.UserServiceImpl;
 
 import java.util.List;
 import java.net.URI;
+import java.util.Optional;
 
 @Tag(name="Api users", description = "Api for users managment")
 @RestController
@@ -31,11 +32,8 @@ public class UserRestController {
     @Operation(summary = "Get user for email", description = "Get user for valid email. If email don't exist so response with NotFound state")
     @GetMapping("/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        for (User user : this.userService.getAllUser()) {
-            if(user.getEmail() == email) {
-                return ResponseEntity.ok(user);
-            }
-        }
+        Optional<User> user = this.userService.getUserByEmail(email);
+        user.map(ResponseEntity::ok);
         return ResponseEntity.notFound().build();
     }
 

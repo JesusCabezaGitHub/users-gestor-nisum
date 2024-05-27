@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Data
 @Entity(name = "usuario")
+@NamedQuery(name="UserEntity.findByEmail", query = "select u from usuario u where u.email = ?1")
 public class UserEntity {
 
     @Id

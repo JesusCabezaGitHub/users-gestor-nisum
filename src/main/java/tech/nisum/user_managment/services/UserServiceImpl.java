@@ -7,6 +7,7 @@ import tech.nisum.user_managment.persistence.entity.UserEntity;
 import tech.nisum.user_managment.persistence.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -21,6 +22,13 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    public Optional<User> getUserByEmail(String email) {
+//        return this.userRepository.findByEmail(email).map(userEntity -> {
+//            return userMapper.mapUser(userEntity);
+//        });
+        return null;
+    }
+
     public List<User> getAllUser(){
         return this.userRepository.findAll().stream().map( userEntity -> {
             return userMapper.mapUser(userEntity);
@@ -30,10 +38,6 @@ public class UserServiceImpl implements UserService {
     public void create(User user) {
         UserEntity userEntity = userMapper.mapUsuario(user);
         userRepository.save(userEntity);
-    }
-
-    public User getUserByEmail(String email) {
-        return null;
     }
 
 }
