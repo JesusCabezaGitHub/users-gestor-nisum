@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
         });
         UserEntity userEntity = userMapper.mapUsuario(user);
         userRepository.save(userEntity);
+
     }
 
 }
