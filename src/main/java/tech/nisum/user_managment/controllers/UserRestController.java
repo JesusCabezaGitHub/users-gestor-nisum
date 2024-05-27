@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.nisum.user_managment.domain.User;
+import tech.nisum.user_managment.exceptions.UserNotFoundException;
 import tech.nisum.user_managment.services.UserService;
 import tech.nisum.user_managment.services.UserServiceImpl;
 
@@ -32,9 +33,11 @@ public class UserRestController {
     @Operation(summary = "Get user for email", description = "Get user for valid email. If email don't exist so response with NotFound state")
     @GetMapping("/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = this.userService.getUserByEmail(email);
-        user.map(ResponseEntity::ok);
-        return ResponseEntity.notFound().build();
+        return this.userService.getUserByEmail(email)
+                .map(user -> {
+                    return ResponseEntity.ok(user);
+                })
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @ApiResponse(responseCode = "200", description = "Success operation")

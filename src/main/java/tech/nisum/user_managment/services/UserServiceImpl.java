@@ -2,6 +2,7 @@ package tech.nisum.user_managment.services;
 
 import org.springframework.stereotype.Service;
 import tech.nisum.user_managment.domain.User;
+import tech.nisum.user_managment.exceptions.EmailAlreadyExistException;
 import tech.nisum.user_managment.mappers.UserMapper;
 import tech.nisum.user_managment.persistence.entity.UserEntity;
 import tech.nisum.user_managment.persistence.repository.UserRepository;
@@ -23,10 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<User> getUserByEmail(String email) {
-//        return this.userRepository.findByEmail(email).map(userEntity -> {
-//            return userMapper.mapUser(userEntity);
-//        });
-        return null;
+        return this.userRepository.findByEmail(email).map(userEntity -> {
+            return userMapper.mapUser(userEntity);
+        });
     }
 
     public List<User> getAllUser(){
@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public void create(User user) {
+        this.getUserByEmail(user.getEmail()).map( userEntity -> {
+            throw new EmailAlreadyExistException();
+        });
         UserEntity userEntity = userMapper.mapUsuario(user);
         userRepository.save(userEntity);
     }
